@@ -52,7 +52,6 @@ class ModMail:
                 icon_url=author.avatar_url if author.avatar else author.default_avatar_url)
             embed.set_footer(text="User ID: {}".format(author.id))
 
-            # to_send = '{0.mention} `{0.id}`'.format(author)
             if message.attachments:
                 attachment_urls = []
                 for attachment in message.attachments:
@@ -63,7 +62,6 @@ class ModMail:
                     value=attachment_msg,
                     inline=False
                     )
-            # text = await self.bot.send_message(self.set_server, to_send)
             mothership = await self.bot.send_message(self.set_server, embed=embed)
             await self.bot.add_reaction(mothership, "📩")
             await self.bot.add_reaction(mothership, "❌")
@@ -116,6 +114,8 @@ class ModMail:
                     await self.bot.delete_message(ctx.message)
                 except discord.errors.Forbidden:
                     pass
+            except discord.errors.InvalidArgument:
+                await self.bot.say("No modmail channel has been set-up.")
             except discord.errors.Forbidden:
                 await self.bot.send_message(self.set_server, 
                     '{0} {1.mention} is not in a shared server, or has disabled DM\'s'
@@ -157,8 +157,8 @@ class ModMail:
 
         if channel is None:
             channel = ctx.message.channel
-        self.set_server["channel"] = channel.id
-        dataIO.save_json("data/modmail/settings.json", self.set_server)
+        self.settings["channel"] = channel.id
+        dataIO.save_json("data/modmail/settings.json", self.settings)
 
         await self.bot.send_message(channel,
             'I will send modmail here now.\n')
@@ -229,7 +229,7 @@ def check_files():
         dataIO.save_json("data/modmail/ignoredlist.json", data)
     if not os.path.exists("data/modmail/settings.json"):
         print("Creating settings.json...")
-        data = {"channel": []}
+        data = {"channel": " "}
 
         dataIO.save_json("data/modmail/settings.json", data)
 
