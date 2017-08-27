@@ -176,7 +176,7 @@ class ModMail:
                 title=':bell: {0} has been removed from the ignore list.'.format(user),
                 description= "`User id: {}` ".format(user.id),
                 color=0xff8040)
-            embed.set_footer(text="Unignored by: {}".format(ctx.message.author))
+            embed.set_footer(text="Unignored by: {}".format(author))
             await self.bot.send_message(self.set_server, embed=embed)
                 
         else:
