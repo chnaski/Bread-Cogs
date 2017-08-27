@@ -216,19 +216,24 @@ class ModMail:
             return list(pagify(users, delims=[" ", "\n"]))
 
         return []
+def check_folder():
+    if not os.path.exists('data/modmail'):
+        print('Creating modmail folder...')
+        os.makedirs('data/modmail')
 
 def check_files():
-    if not os.path.isfile("data/modmail/ignoredlist.json"):
+    if not os.path.exists("data/modmail/ignoredlist.json"):
         print("Creating empty ignores.json...")
         data = {"ignored": []}
 
         dataIO.save_json("data/modmail/ignoredlist.json", data)
-    if not os.path.isfile("data/modmail/settings.json"):
+    if not os.path.exists("data/modmail/settings.json"):
         print("Creating settings.json...")
         data = {"channel": []}
 
         dataIO.save_json("data/modmail/settings.json", data)
 
 def setup(bot):
+    check_folder()
     check_files()
     bot.add_cog(ModMail(bot))
