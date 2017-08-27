@@ -13,6 +13,7 @@ menu = {
 }
 
 
+
 class ModMail:
 
     def __init__(self, bot):
@@ -83,12 +84,14 @@ class ModMail:
             elif react == "delete":
                 await self.bot.delete_message(mothership)
 
+    @checks.admin_or_permissions(manager_server=True)
     @commands.group(pass_context=True)
     async def modmail(self, ctx):
         """All messages sent to the bot will go to set channel."""
         if ctx.invoked_subcommand is None:
             await send_cmd_help(ctx)
 
+    @checks.admin_or_permissions(manager_server=True)
     @modmail.command(pass_context=True)
     async def reply(self, ctx, user: discord.Member=None, *, message):
         """Reply to a message, logs to set channel."""
@@ -116,7 +119,8 @@ class ModMail:
                 await self.bot.send_message(self.set_server, 
                     '{0} {1.mention} is not in a shared server, or has disabled DM\'s'
                     .format(user.mention, member))
-
+    
+    @checks.admin_or_permissions(manager_server=True)
     @modmail.command(pass_context=True)
     async def ignore(self, ctx, user: discord.Member, *, reason=None):
         """Add a user to the ignore list.
@@ -145,7 +149,7 @@ class ModMail:
         except discord.errors.Forbidden:
             pass
 
-
+    @checks.admin_or_permissions(manager_server=True)
     @modmail.command(pass_context=True)
     async def channel(self, ctx, channel:discord.Channel=None):
         """Set the channel modmail will be sent too"""
@@ -158,6 +162,7 @@ class ModMail:
         await self.bot.send_message(channel,
             'I will send modmail here now.\n')
 
+    @checks.admin_or_permissions(manager_server=True)
     @modmail.command(pass_context=True)
     async def unignore(self, ctx, user: discord.Member):
         """Removes user from ignore list.
@@ -177,7 +182,8 @@ class ModMail:
         else:
             await self.bot.send_message(
                 self.set_server, ("{} `{}` is not ignored.").format(user.mention, user.id))
-   
+
+    @checks.admin_or_permissions(manager_server=True)   
     @modmail.command(name="list")
     async def _list(self):
         """A list of users ignored in ModMail"""
