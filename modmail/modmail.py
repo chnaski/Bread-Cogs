@@ -117,10 +117,10 @@ class ModMail:
             except discord.errors.InvalidArgument:
                 await self.bot.say("No modmail channel has been set-up.")
             except discord.errors.Forbidden:
-                await self.bot.send_message(self.set_server, 
+                await self.bot.send_message(self.set_server,
                     '{0} {1.mention} is not in a shared server, or has disabled DM\'s'
                     .format(user.mention, member))
-    
+
     @checks.admin_or_permissions(manager_server=True)
     @modmail.command(pass_context=True)
     async def ignore(self, ctx, user: discord.Member, *, reason=None):
@@ -141,9 +141,9 @@ class ModMail:
             embed.set_footer(
                 text="Ignored by: {}".format(ctx.message.author))
             await self.bot.send_message(self.set_server, embed=embed)
-                
+
         else:
-            await self.bot.send_message(self.set_server, 
+            await self.bot.send_message(self.set_server,
                 ':no_bell: {} is already ignored.'.format(user.mention))
         try:
             await self.bot.delete_message(ctx.message) # delete command message to leave just modmail
@@ -158,6 +158,7 @@ class ModMail:
         if channel is None:
             channel = ctx.message.channel
         self.settings["channel"] = channel.id
+        self.set_server = self.bot.get_channel(self.settings["channel"])
         dataIO.save_json("data/modmail/settings.json", self.settings)
 
         await self.bot.send_message(channel,
@@ -179,12 +180,12 @@ class ModMail:
                 color=0xff8040)
             embed.set_footer(text="Unignored by: {}".format(author))
             await self.bot.send_message(self.set_server, embed=embed)
-                
+
         else:
             await self.bot.send_message(
                 self.set_server, ("{} `{}` is not ignored.").format(user.mention, user.id))
 
-    @checks.admin_or_permissions(manager_server=True)   
+    @checks.admin_or_permissions(manager_server=True)
     @modmail.command(name="list")
     async def _list(self):
         """A list of users ignored in ModMail"""
