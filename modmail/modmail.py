@@ -160,9 +160,11 @@ class ModMail:
         self.settings["channel"] = channel.id
         self.set_server = self.bot.get_channel(self.settings["channel"])
         dataIO.save_json("data/modmail/settings.json", self.settings)
-
-        await self.bot.send_message(channel,
-            'I will send modmail here now.\n')
+        try:
+            await self.bot.send_message(channel, "I will send modmail here.")
+        except discord.errors.Forbidden:
+            await self.bot.send_message(channel, 
+                "I need the \"Embed Links\" permission to send messages here.")
 
     @checks.admin_or_permissions(manager_server=True)
     @modmail.command(pass_context=True)
