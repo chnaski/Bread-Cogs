@@ -32,7 +32,7 @@ class PicWelcome:
     @checks.admin_or_permissions(manager_server=True)
     @commands.group(pass_context=True)
     async def picwelcome(self, ctx):
-        """All messages sent to the bot will go to set channel."""
+        """Welcome users to your server with an image."""
         if ctx.invoked_subcommand is None:
             await send_cmd_help(ctx)
 
