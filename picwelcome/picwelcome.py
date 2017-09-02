@@ -115,7 +115,7 @@ class PicWelcome:
                     if bg_image.size == (400,100):
                         self.settings["userbar"][ctx.message.server.id]["background"] = "data/picwelcome/" + ctx.message.server.id + "/custom_bg"
                         dataIO.save_json("data/picwelcome/settings.json", self.settings)
-                        await self.bot.say("Using {} as welcome background.")
+                        await self.bot.say("Using image as welcome background.")
                     else:
                         await self.bot.say("Image has the wrong dimensions, please provide 400x100 image")
                 else:
