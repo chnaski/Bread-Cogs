@@ -40,7 +40,7 @@ class PicWelcome:
     @checks.admin_or_permissions(manager_server=True)
     @picwelcome.group(pass_context=True)
     async def channel(self, ctx, channel:discord.Channel=None):
-        """Welcome your users with an image!"""
+        """Set the channel you want members to welcomed in"""
 
         if channel is None:
             channel = ctx.message.channel
