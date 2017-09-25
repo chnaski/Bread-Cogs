@@ -52,9 +52,8 @@ class BanList():
     async def lookup(self, user):
         resp = await aiohttp.post(URL, data=self.payload(user))
         final = await resp.json()
+        resp.close()
         return final
-
-            
 
     @checks.admin_or_permissions(manager_server=True)
     @commands.group(pass_context=True)
@@ -119,7 +118,6 @@ class BanList():
                 name, userid, reason, niceurl))
 
         await self.bot.say(embed=self.embed_maker("Ban Found", ctx.message.author.color, description))
-        resp.close()
 
 
     async def _banjoin(self, member):
@@ -149,7 +147,6 @@ class BanList():
 
         await self.bot.send_message(channel,
             embed=self.embed_maker("Ban Found", 0xff0000, description))
-        resp.close()
 
 def check_folder():
     if not os.path.exists('data/bancheck'):
