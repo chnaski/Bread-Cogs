@@ -11,7 +11,7 @@ from .utils.dataIO import dataIO
 class Store():
 
     """
-    This houses all the dicts for Kitten's reactions
+    This houses all the dicts for Kitten's reactions.
     """
     items = {
         "food": {
@@ -254,7 +254,7 @@ class Kitten():
 
     def safe_embed(self, description=None, title=None, image=None, footer=None):
         """
-        This will allow me to just change colors etc later
+        This will allow me to just change colors, etc. later.
         """
         embed = discord.Embed(
             title=title,
@@ -277,8 +277,7 @@ class Kitten():
     @_kittenBase.command(pass_context=True, name='condition')
     async def kittens_condition(self, ctx):
         """
-        Set your kittens name. This can only be done once.
-        Choose carefully. Meow. :cat:
+        Check your kitten's condition.
         """
         Condition.lost_cat(
             ctx, self.condition)  # check if we have a kitten or not.
@@ -299,7 +298,7 @@ class Kitten():
     @_kittenBase.command(pass_context=True, name='revive')
     async def revive_kitten(self, ctx):
         """
-        Revive your kitten because you're a terrible owner
+        Revive your kitten because you're a terrible owner.
         """
         Condition.lost_cat(
             ctx, self.condition)  # check if we have a kitten or not.
@@ -336,7 +335,8 @@ class Kitten():
     @_kittenBase.command(pass_context=True, name='name')
     async def name_kitten(self, ctx, name):
         """
-        Name your kitten
+        Set your kitten's name. This can only be done once.
+        Choose carefully. Meow. :cat:
         """
         Condition.lost_cat(
             ctx, self.condition)  # check if we have a kitten or not.
@@ -358,7 +358,7 @@ class Kitten():
 
     @_kittenBase.command(pass_context=True, name='feed')
     async def feed_kitten(self, ctx, food):
-        """Feed the kitten"""
+        """Feed your kitten."""
 
          # TODO: integrate economy
 
@@ -443,7 +443,7 @@ class Kitten():
     @_kittenBase.command(pass_context=True, name='store')
     async def store_for_kitty(self, ctx):
         """
-        List of items to feed / play with Kitten
+        List of items to feed / play with you Kitten.
         """
         Condition.lost_cat(
             ctx, self.condition)  # check if we have a kitten or not.
