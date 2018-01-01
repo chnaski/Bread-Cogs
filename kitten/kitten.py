@@ -11,7 +11,7 @@ from .utils.dataIO import dataIO
 class Store():
 
     """
-    This houses all the dicts for Kitten's reactions
+    This houses all the dicts for Kitten's reactions.
     """
     items = {
         "food": {
@@ -254,7 +254,7 @@ class Kitten():
 
     def safe_embed(self, description=None, title=None, image=None, footer=None):
         """
-        This will allow me to just change colors etc later
+        This will allow me to just change colors, etc. later.
         """
         embed = discord.Embed(
             title=title,
@@ -272,13 +272,22 @@ class Kitten():
     @commands.group(pass_context=True, name='kitten')
     async def _kittenBase(self, ctx):
         if ctx.invoked_subcommand is None:
-            await send_cmd_help(ctx)
+            title = '**Kitten!**\n'
+            description = 'Each server has its own kitten. Take care of your kitten and get great rewards!\n\n'
+            description += '**Commands**\n\n'
+            description += '``{0}kitten name``: Set your kitten\'s name. This can only be done once.\n'
+            description += '``{0}kitten condition``: Check your kitten\'s condition.\n'
+            description += '``{0}kitten store``: List of items to feed / play with you Kitten.\n'
+            description += '``{0}kitten feed``: Feed your kitten.\n'
+            description += '``{0}kitten play``: Play with your kitten.\n'
+            description += '``{0}kitten revive``: Revive your kitten because you\'re a terrible owner.\n'
+            em = self.safe_embed(description=description.format(ctx.prefix), title=title, image="http://is1.mzstatic.com/image/thumb/Purple71/v4/93/95/20/93952071-63d9-ed18-a9f3-da753674f091/source/1200x630bb.jpg")
+            await self.bot.say(embed=em)
 
     @_kittenBase.command(pass_context=True, name='condition')
     async def kittens_condition(self, ctx):
         """
-        Set your kittens name. This can only be done once.
-        Choose carefully. Meow. :cat:
+        Check your kitten's condition.
         """
         Condition.lost_cat(
             ctx, self.condition)  # check if we have a kitten or not.
@@ -299,7 +308,7 @@ class Kitten():
     @_kittenBase.command(pass_context=True, name='revive')
     async def revive_kitten(self, ctx):
         """
-        Revive your kitten because you're a terrible owner
+        Revive your kitten because you're a terrible owner.
         """
         Condition.lost_cat(
             ctx, self.condition)  # check if we have a kitten or not.
@@ -336,7 +345,7 @@ class Kitten():
     @_kittenBase.command(pass_context=True, name='name')
     async def name_kitten(self, ctx, name):
         """
-        Name your kitten
+        Set your kitten's name. This can only be done once.
         """
         Condition.lost_cat(
             ctx, self.condition)  # check if we have a kitten or not.
@@ -358,7 +367,7 @@ class Kitten():
 
     @_kittenBase.command(pass_context=True, name='feed')
     async def feed_kitten(self, ctx, food):
-        """Feed the kitten"""
+        """Feed your kitten."""
 
          # TODO: integrate economy
 
@@ -401,7 +410,7 @@ class Kitten():
     @_kittenBase.command(pass_context=True, name='play')
     async def play_with_kitten(self, ctx, toy):
         """
-        Play with your Kitten!
+        Play with your Kitten.
         """
 
          # TODO: integrate economy
@@ -443,7 +452,7 @@ class Kitten():
     @_kittenBase.command(pass_context=True, name='store')
     async def store_for_kitty(self, ctx):
         """
-        List of items to feed / play with Kitten
+        List of items to feed / play with you Kitten.
         """
         Condition.lost_cat(
             ctx, self.condition)  # check if we have a kitten or not.
