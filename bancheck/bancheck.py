@@ -29,8 +29,9 @@ class BanList():
             await self.save_settings()
 
 
-    def embed_maker(self, title, color, description):
+    def embed_maker(self, title, color, description, avatar):
         embed=discord.Embed(title=title, color=color, description=description)
+        embed.set_thumbnail(url=avatar)
         return embed
 
     def payload(self, user):
@@ -75,7 +76,7 @@ class BanList():
         try:
             await self.bot.send_message(channel,
                 embed=self.embed_maker(None ,0x008000,
-                    ':white_check_mark: **I will send all ban check notices here.**'))
+                    ':white_check_mark: **I will send all ban check notices here.**', avatar=self.bot.user.avatar_url))
         except discord.errors.Forbidden:
             await self.bot.send_message(channel, 
                 ":no_entry: **I'm not allowed to send embeds here.**")
@@ -103,10 +104,13 @@ class BanList():
         await self._check_files_(ctx)
         if not user:
             user = ctx.message.author.id
+        
+        avatar = discord.utils.get(ctx.message.server.members, id=user).avatar_url
+
         try:
             final = await self.lookup(user)
         except ValueError:
-            return await self.bot.say(embed=self.embed_maker("No ban found", 0x008000, None))
+            return await self.bot.say(embed=self.embed_maker("No ban found", 0x008000, None, avatar))
         name = (final[1].replace("<Aspect>", ""))
         userid = final[2]
         reason = final[3]
@@ -117,7 +121,7 @@ class BanList():
             """**Name:** {}\n**ID:** {}\n**Reason:** {}\n**Proof:** {}""".format(
                 name, userid, reason, niceurl))
 
-        await self.bot.say(embed=self.embed_maker("Ban Found", ctx.message.author.color, description))
+        await self.bot.say(embed=self.embed_maker("Ban Found", ctx.message.author.color, description, avatar))
 
 
     async def _banjoin(self, member):
@@ -133,7 +137,8 @@ class BanList():
             await self.bot.send_message(channel, embed=self.embed_maker(
                 "No ban found",
                 0x008000,
-                '**Name:** {}\n**ID: **{}'.format(member.display_name, member.id)))
+                '**Name:** {}\n**ID: **{}'.format(member.display_name, member.id),
+                member.avatar_url))
             return
         name = (final[1].replace("<Aspect>", ""))
         userid = final[2]
@@ -146,7 +151,7 @@ class BanList():
                 name, userid, reason, niceurl))
 
         await self.bot.send_message(channel,
-            embed=self.embed_maker("Ban Found", 0xff0000, description))
+            embed=self.embed_maker("Ban Found", 0xff0000, description, member.avatar_url))
 
 def check_folder():
     if not os.path.exists('data/bancheck'):
